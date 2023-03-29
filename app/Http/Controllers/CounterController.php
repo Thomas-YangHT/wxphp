@@ -54,7 +54,6 @@ class CounterController extends Controller
     */
     public function returnMsg(){
 
-        try {
             $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
             if (!empty($postStr)){
                 // $this->logger("R \r\n".$postStr);
@@ -103,7 +102,6 @@ class CounterController extends Controller
                 echo "";
                 exit;
             }
-        }
     }
 
        //接收事件消息
