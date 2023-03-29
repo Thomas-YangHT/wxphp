@@ -53,6 +53,7 @@ class CounterController extends Controller
     回得消息
     */
     public function returnMsg(){
+        try {
             $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
             if (!empty($postStr)){
                 // $this->logger("R \r\n".$postStr);
@@ -101,6 +102,15 @@ class CounterController extends Controller
                 echo "";
                 exit;
             }
+        } catch (Error $e) {
+            $res = [
+                "code" => -1,
+                "data" => [],
+                "errorMsg" => ("消息处理异常：" . $e->getMessage())
+            ];
+            Log::info('getCount rsp: '.json_encode($res));
+            return response()->json($res);
+        }
     }
 
        //接收事件消息
@@ -208,6 +218,7 @@ class CounterController extends Controller
     
             return $result;
        } 
+
        //接收文本消息
        private function receiveText($object)
        {
@@ -238,11 +249,11 @@ class CounterController extends Controller
         //    }else if (strstr($keyword, "音乐")){
         //        $content = array();
         //        $content = array("Title"=>"最炫民族风", "Description"=>"歌手：凤凰传奇", "MusicUrl"=>"http://mascot-music.stor.sinaapp.com/zxmzf.mp3", "HQMusicUrl"=>"http://mascot-music.stor.sinaapp.com/zxmzf.mp3");
-              }else{
+            }else{
                $content = "Link1：<a href='https://jaywcjlove.gitee.io/linux-command/c/".$keyword.".html'>".$keyword."</a>\n";
                $content .= "Link2：<a href='https://www.linuxcool.com/".$keyword."'>".$keyword."</a>\n";
                $content .= "Link3：<a href='https://man.linuxde.net/".$keyword."'>".$keyword."</a>";
-           }
+            }
    
            if(is_array($content)){
             //    if (isset($content[0])){
