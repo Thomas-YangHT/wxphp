@@ -203,6 +203,7 @@ class CounterController extends Controller
         //回复文本消息
         private function transmitText($object, $content)
         {
+         try{
             if (!isset($content) || empty($content)){
                 return "";
             }
@@ -217,11 +218,21 @@ class CounterController extends Controller
             $result = sprintf($xmlTpl, $object->FromUserName, $object->ToUserName, time(), $content);
     
             return $result;
+        } catch (Error $e) {
+            $res = [
+                "code" => -1,
+                "data" => [],
+                "errorMsg" => ("查询计数异常" . $e->getMessage())
+            ];
+            Log::info('getCount rsp: '.json_encode($res));
+            return response()->json($res);
+        }
        } 
 
        //接收文本消息
        private function receiveText($object)
        {
+        try{
            $keyword = trim($object->Content);
            //多客服人工回复模式
         //    if (strstr($keyword, "请问在吗") || strstr($keyword, "在线客服")){
@@ -265,6 +276,15 @@ class CounterController extends Controller
                $result = $this->transmitText($object, $content);
            }
            return $result;
+        } catch (Error $e) {
+            $res = [
+                "code" => -1,
+                "data" => [],
+                "errorMsg" => ("查询计数异常" . $e->getMessage())
+            ];
+            Log::info('getCount rsp: '.json_encode($res));
+            return response()->json($res);
+        }
        }
 
     /**
