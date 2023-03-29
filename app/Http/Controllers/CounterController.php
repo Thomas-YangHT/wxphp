@@ -103,6 +103,7 @@ class CounterController extends Controller
                 echo "";
                 exit;
             }
+        }
     }
 
        //接收事件消息
