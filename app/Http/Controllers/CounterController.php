@@ -53,7 +53,6 @@ class CounterController extends Controller
     回得消息
     */
     public function returnMsg(){
-
             $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
             if (!empty($postStr)){
                 // $this->logger("R \r\n".$postStr);
